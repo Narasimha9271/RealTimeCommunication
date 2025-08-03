@@ -76,6 +76,28 @@ The browser connects once to the WS server, and messages arrive instantly.
 
 ---
 
+## 🌐 4️⃣ Server-Sent Events (SSE)
+
+### 📌 How it works:
+
+- The browser opens **one HTTP connection** to `/sse`.
+- The server **keeps that connection open forever** and “pushes” events (messages) down the stream.
+- The browser listens for `message` events — no polling needed.
+
+✅ **Pros:**
+- ✅ Very easy to implement (just HTTP).
+- ✅ Real-time updates like WebSockets.
+- ✅ Auto-reconnect built into browsers.
+
+❌ **Cons:**
+- ❌ One-way only (server → browser).
+- ❌ Not supported in IE (but all modern browsers support it).
+
+📊 **In this demo:**  
+When you send a message, **SSE clients instantly receive it** just like WebSockets.  
+But **you cannot send a message from browser → server** via SSE.
+
+
 ## 🚀 Side-by-Side Behavior in This Demo
 
 ✅ When you **click “Send Message”:**
@@ -83,12 +105,15 @@ The browser connects once to the WS server, and messages arrive instantly.
 - **Short Polling** → Waits up to 5s for the next scheduled request.
 - **Long Polling** → Gets the message instantly (its request was “waiting”).
 - **WebSockets** → Gets the message instantly (pushed over the open connection).
+- **SSE** → Gets the message instantly (pushed over the open HTTP stream).
 
 ✅ When **no messages** are sent:
 
-- Short polling keeps checking and printing “No new messages.”
-- Long polling just **waits silently** until data arrives.
+- Short Polling keeps checking and printing “No new messages.”
+- Long Polling just **waits silently** until data arrives.
 - WebSockets just **stay connected** doing nothing until data is pushed.
+- SSE just **stays connected** and will push events when available.
+
 
 ---
 
@@ -97,18 +122,22 @@ The browser connects once to the WS server, and messages arrive instantly.
 - ✅ **Short Polling** → Good for small apps or demos where instant updates aren’t critical.
 - ✅ **Long Polling** → Good for near real-time apps where WebSockets aren’t possible.
 - ✅ **WebSockets** → Best for **true real-time** use cases like chat, notifications, dashboards, and multiplayer games.
+- ✅ **SSE** → Best for **one-way notifications** (live feeds, dashboards, stock tickers).
+
 
 ---
 
-## 📂 Project Structure
+📂 Project Structure
 
-├── server.js # Express + WebSocket server
+├── server.js # Express + WebSocket + SSE server
 ├── package.json
 ├── public/
-│ ├── index.html # UI with 3 boxes
-│ ├── short.js # Short polling logic
-│ ├── long.js # Long polling logic
-│ ├── ws.js # WebSocket logic
+│ ├── index.html   # UI with 4 boxes (Short, Long, WS, SSE)
+│ ├── short.js     # Short polling logic
+│ ├── long.js      # Long polling logic
+│ ├── ws.js        # WebSocket logic (send & receive)
+│ ├── sse.js       # Server-Sent Events (SSE) logic
+
 
 ````bash
 
@@ -122,3 +151,8 @@ node server.js
 ````
 
 Open 👉 http://localhost:3000
+
+💡 **Note:**  
+Try the **“Send via WebSocket”** button — you’ll see the message **only appears in the WebSocket box**, because **WebSocket supports sending browser → server**.  
+SSE box won’t get this message (SSE is **one-way only**).
+
