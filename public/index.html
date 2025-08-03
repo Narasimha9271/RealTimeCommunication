@@ -3,37 +3,45 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Polling Demo</title>
+    <title>Polling vs WebSockets</title>
 </head>
 
 <body>
-    <h1>📡 Short Polling vs Long Polling</h1>
+    <h1>📡 Short Polling vs Long Polling vs WebSockets</h1>
 
-    <!-- ✅ Message input + Send button -->
+    <!-- ✅ Input to send messages -->
     <input type="text" id="messageInput" placeholder="Type a message">
     <button onclick="sendMessage()">Send Message</button>
 
     <div style="display:flex; gap:50px; margin-top:20px;">
-        <!-- Short Polling Box -->
+        <!-- Short Polling -->
         <div>
             <h2>⏳ Short Polling</h2>
             <div id="short-box" style="border:1px solid gray; width:300px; height:200px; overflow:auto; padding:10px;">
             </div>
         </div>
 
-        <!-- Long Polling Box -->
+        <!-- Long Polling -->
         <div>
             <h2>🚀 Long Polling</h2>
             <div id="long-box" style="border:1px solid gray; width:300px; height:200px; overflow:auto; padding:10px;">
+            </div>
+        </div>
+
+        <!-- WebSocket -->
+        <div>
+            <h2>⚡ WebSocket</h2>
+            <div id="ws-box" style="border:1px solid gray; width:300px; height:200px; overflow:auto; padding:10px;">
             </div>
         </div>
     </div>
 
     <script src="short.js"></script>
     <script src="long.js"></script>
+    <script src="ws.js"></script>
 
     <script>
-        // ✅ Function to send message to server
+        // ✅ Send Message Button
         function sendMessage() {
             const input = document.getElementById('messageInput');
             const text = input.value.trim();
@@ -46,8 +54,8 @@
             })
                 .then(res => res.json())
                 .then(data => {
-                    console.log('Message sent:', data.message.text);
-                    input.value = ''; // clear input box
+                    console.log('✅ Message sent:', data.message.text);
+                    input.value = '';
                 });
         }
     </script>
