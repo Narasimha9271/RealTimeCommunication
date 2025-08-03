@@ -7,13 +7,19 @@
 </head>
 
 <body>
-    <h1>📡 Short Polling vs Long Polling vs WebSockets</h1>
+    <h1>📡 Short Polling vs Long Polling vs WebSockets vs SSE</h1>
 
-    <!-- ✅ Input to send messages -->
-    <input type="text" id="messageInput" placeholder="Type a message">
-    <button onclick="sendMessage()">Send Message</button>
+    <!-- ✅ Normal HTTP Send -->
+    <input type="text" id="messageInput" placeholder="Type a message (HTTP)">
+    <button onclick="sendMessage()">Send via HTTP</button>
 
-    <div style="display:flex; gap:50px; margin-top:20px;">
+    <!-- ✅ WebSocket Send -->
+    <br><br>
+    <input type="text" id="wsInput" placeholder="Type a message (WebSocket)">
+    <button onclick="sendViaWS()">Send via WebSocket</button>
+
+
+    <div style="display:flex; gap:50px; margin-top:20px; flex-wrap: wrap;">
         <!-- Short Polling -->
         <div>
             <h2>⏳ Short Polling</h2>
@@ -34,11 +40,20 @@
             <div id="ws-box" style="border:1px solid gray; width:300px; height:200px; overflow:auto; padding:10px;">
             </div>
         </div>
+
+        <!-- SSE -->
+        <div>
+            <h2>🌐 SSE</h2>
+            <div id="sse-box" style="border:1px solid gray; width:300px; height:200px; overflow:auto; padding:10px;">
+            </div>
+        </div>
     </div>
 
     <script src="short.js"></script>
     <script src="long.js"></script>
     <script src="ws.js"></script>
+    <script src="sse.js"></script>
+
 
     <script>
         // ✅ Send Message Button
